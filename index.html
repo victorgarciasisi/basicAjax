@@ -1,0 +1,36 @@
+ <html>
+<head>
+<script>
+//Explicación del código:
+
+//verifique si el campo de entrada está vacío (str.length == 0). Si es así, borre el contenido del marcador de posición txtHint y salga de la función.
+function buscaSugerencia(cadenaTexto) {
+    if (cadenaTexto.length == 0) {
+        document.getElementById("textoBuscar").innerHTML = "";
+        return;
+    } else {
+        //AJAX
+        //Creamos un objeto XMLHttpRequest
+        var xmlhttp = new XMLHttpRequest();
+        //Funcion que cambia el estado
+        xmlhttp.onreadystatechange = function() {
+                //pintamos la sugerencia
+                document.getElementById("textoBuscar").innerHTML = this.responseText;
+        };
+        //Envia la solicitud a un archivo PHP (busca.php) en el servidor, el parámetro q se agrega a la url (busca.php? Q = "+ cadenaTexto)
+        xmlhttp.open("GET", "busca.php?q=" + cadenaTexto);
+        xmlhttp.send();
+    }
+}
+</script>
+</head>
+<body>
+<p><b>Nombre a buscar :</b></p>
+<form>
+<!-- ejectuamos funcion buscaSugerencia al teclear-->
+Nombre: <input type="text" onkeyup="buscaSugerencia(this.value)">
+</form>
+<!-- en span id="textoBuscar" si pintan las sugerencias -->
+<p>Sugerencia: <span id="textoBuscar"></span></p>
+</body>
+</html> 
